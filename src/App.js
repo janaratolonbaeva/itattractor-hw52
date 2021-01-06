@@ -1,25 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
+import Card from "./components/Card/Card";
+import React, {Component} from 'react';
+import './CardDeck';
+import CardDeck from "./CardDeck";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    cards: [],
+    counter: 123,
+  }
+
+  dealCards = () => {
+    const cardDeck = new CardDeck();
+    const newCards = cardDeck.getCards(5);
+
+    const stateCopy = {...this.state};
+    stateCopy.cards = newCards;
+
+    this.setState(stateCopy);
+  }
+
+  render() {
+
+    const elems = this.state.cards.map((card, index) => {
+        return <Card key={index} rank={card.ranks} suit={card.suits}/>
+      });
+
+    return (
+      <div className="App">
+        <div className="Cards-block">
+          {elems}
+        </div>
+        <button onClick={this.dealCards}>Deal cards</button>
+      </div>
+    );
+  }
 }
 
 export default App;
